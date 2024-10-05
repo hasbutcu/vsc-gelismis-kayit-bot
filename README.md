@@ -5,6 +5,8 @@
 - **activity:** Oynuyor kısmı.
 - **type:** Oynuyor kısmı tipi ===> `PLAYING` = Oynuyor, `LISTENING` = Dinliyor, `WATCHING` = İzliyor.
 - **status:** Botun durumu (`online` = Aktif, `dnd` = Rahatsız Etme, `idle` = Boşta, `invisible` = Görünmez).
+- **tip:** Botun kullanılacağı tip (`public` = Bot Başka Sunuculara Eklenebilir, `kisisel` = Bot Idsi ekli olmayan sunuculara eklenemez).
+
 
 ### Kurulum Yapmak İçin kurulum.bat Dosyasını Çalıştırmanız Yeterli Olucaktır
 ## Botu Başlatmak İçin başlat.bat Dosyasını Çalıştırmanız Yeterli Olucaktır.
