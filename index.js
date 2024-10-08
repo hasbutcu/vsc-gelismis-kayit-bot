@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection, ChannelType } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, ChannelType, REST, Routes } = require('discord.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
 const fs = require('fs');
 const path = require('path');
@@ -14,7 +14,6 @@ const client = new Client({
         GatewayIntentBits.GuildVoiceStates,
     ],
 });
-
 
 client.commands = new Collection();
 
@@ -36,8 +35,32 @@ for (const file of eventFiles) {
     }
 }
 
+// Bot hazır olduğunda yapılacaklar
+client.once('ready', async () => {
+    console.log(`${client.user.tag} giriş yaptı.`);
 
-client.once('ready', () => {
+    // Global komutları yükle
+    const rest = new REST({ version: '10' }).setToken(config.token);
+    const commands = [];
+    
+    for (const file of commandFiles) {
+        const command = require(`./commands/${file}`);
+        commands.push(command.data.toJSON());
+    }
+
+    try {
+        console.log('Global komutlar yükleniyor...');
+
+        await rest.put(
+            Routes.applicationCommands(config.clientId), // Global komutlar için kullanılır
+            { body: commands },
+        );
+
+        console.log('Global komutlar başarıyla yüklendi.');
+    } catch (error) {
+        console.error('Komutları yüklerken bir hata oluştu:', error);
+    }
+
     // Eğer tip 'public' ise, sesli kanala bağlanma işlemi yapılmasın
     if (tip === "public") {
         console.log('Tip public, sesli kanala bağlanma işlemi yapılmadı.');
